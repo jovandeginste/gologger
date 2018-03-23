@@ -24,7 +24,7 @@ func main() {
 	if value, err := strconv.Atoi(priorityFlag); err == nil {
 		priority = syslog.Priority(value)
 	} else {
-		facilityPriority, severityPriority, err := ParsePriority(priorityFlag)
+		facilityPriority, severityPriority, err := parsePriority(priorityFlag)
 		if err != nil {
 			fmt.Printf("Error: %s\n", err)
 			os.Exit(1)
@@ -53,7 +53,7 @@ func main() {
 	}
 }
 
-func ParsePriority(priorityFlag string) (syslog.Priority, syslog.Priority, error) {
+func parsePriority(priorityFlag string) (syslog.Priority, syslog.Priority, error) {
 	var facilityFlag, severityFlag string
 	splitPriorityFlag := strings.SplitN(priorityFlag, ".", 2)
 	if len(splitPriorityFlag) > 0 {
@@ -102,11 +102,11 @@ func ParsePriority(priorityFlag string) (syslog.Priority, syslog.Priority, error
 
 	facilityPriority, ok := priorityMap[facilityFlag]
 	if !ok {
-		return 0, 0, fmt.Errorf("Could not find facility %s.\n", facilityFlag)
+		return 0, 0, fmt.Errorf("could not find facility %s", facilityFlag)
 	}
 	severityPriority, ok := priorityMap[severityFlag]
 	if !ok {
-		return 0, 0, fmt.Errorf("Could not find severity %s.\n", severityFlag)
+		return 0, 0, fmt.Errorf("could not find severity %s", severityFlag)
 	}
 
 	return facilityPriority, severityPriority, nil
